@@ -1,4 +1,4 @@
-my_ip_ssh="78.69.122.249/32"
+
 
 t1_availability_zone1="eu-west-3a"
 t1_availability_zone2="eu-west-3a"
