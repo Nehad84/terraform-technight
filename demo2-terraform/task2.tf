@@ -8,20 +8,19 @@ variable "t2_availability_zone1" {}
 variable "t2_availability_zone2" {}
 variable "t2_availability_zone3" {}
 variable "t2_vpc_cidr_block" {}
-variable "t2_subnet1_cidr" {}
-variable "t2_subnet2_cidr" {}
-variable "t2_subnet3_cidr" {}
-variable "t2_subnet4_cidr" {}
-variable "t2_subnet5_cidr" {}
-variable "t2_subnet6_cidr" {}
+variable "t2_pubsubnet1_cidr" {}
+variable "t2_pubsubnet2_cidr" {}
+variable "t2_pubsubnet3_cidr" {}
+variable "t2_prvsubnet1_cidr" {}
+variable "t2_prvsubnet2_cidr" {}
+variable "t2_prvsubnet3_cidr" {}
 variable "t2_prefix" {}
-variable "my_ip_ssh" {}
 
 #-----------------------------------------------------------------
 #vpc section
 
 #Create a VPC
-resource "aws_vpc" "task2_vpc" {
+resource "aws_vpc" "demo2_vpc" {
     cidr_block = var.t2_vpc_cidr_block[0].cidr
     #for eks
     enable_dns_support = true
@@ -34,14 +33,14 @@ resource "aws_vpc" "task2_vpc" {
 #subnet section
 
 #Create a public subnet1
-resource "aws_subnet" "task2_pub_subnet_1" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet1_cidr[0].cidr
+resource "aws_subnet" "demo2_pub_subnet_1" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_pubsubnet1_cidr[0].cidr
     availability_zone= var.t2_availability_zone1
     #for eks
     map_public_ip_on_launch = true
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet1_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_pubsubnet1_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/elb" = 1
@@ -49,14 +48,14 @@ resource "aws_subnet" "task2_pub_subnet_1" {
 }
 
 #Create a public subnet2
-resource "aws_subnet" "task2_pub_subnet_2" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet2_cidr[0].cidr
+resource "aws_subnet" "demo2_pub_subnet_2" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_pubsubnet2_cidr[0].cidr
     availability_zone= var.t2_availability_zone2
     #for eks
     map_public_ip_on_launch = true
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet2_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_pubsubnet2_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/elb" = 1
@@ -64,14 +63,14 @@ resource "aws_subnet" "task2_pub_subnet_2" {
 }
 
 #Create a public subnet3
-resource "aws_subnet" "task2_pub_subnet_3" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet3_cidr[0].cidr
+resource "aws_subnet" "demo2_pub_subnet_3" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_pubsubnet3_cidr[0].cidr
     availability_zone= var.t2_availability_zone3
     #for eks
     map_public_ip_on_launch = true
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet3_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_pubsubnet3_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/elb" = 1
@@ -79,12 +78,12 @@ resource "aws_subnet" "task2_pub_subnet_3" {
 }
 
 #Create a private subnet1
-resource "aws_subnet" "task2_prvt_subnet_1" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet4_cidr[0].cidr
+resource "aws_subnet" "demo2_prvt_subnet_1" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_prvsubnet1_cidr[0].cidr
     availability_zone= var.t2_availability_zone1
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet4_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_prvsubnet1_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/internal-elb" = 1
@@ -92,24 +91,24 @@ resource "aws_subnet" "task2_prvt_subnet_1" {
 }
 
 #Create a private subnet2
-resource "aws_subnet" "task2_prvt_subnet_2" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet5_cidr[0].cidr
+resource "aws_subnet" "demo2_prvt_subnet_2" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_prvsubnet2_cidr[0].cidr
     availability_zone= var.t2_availability_zone2 
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet5_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_prvsubnet2_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/internal-elb" = 1
     }
 }
 #Create a private subnet3
-resource "aws_subnet" "task2_prvt_subnet_3" {
-    vpc_id= aws_vpc.task2_vpc.id
-    cidr_block = var.t2_subnet6_cidr[0].cidr
+resource "aws_subnet" "demo2_prvt_subnet_3" {
+    vpc_id= aws_vpc.demo2_vpc.id
+    cidr_block = var.t2_prvsubnet3_cidr[0].cidr
     availability_zone= var.t2_availability_zone3
     tags={
-        Name: "${var.t2_prefix}-${var.t2_subnet6_cidr[0].name}"
+        Name: "${var.t2_prefix}-${var.t2_prvsubnet3_cidr[0].name}"
         #for eks
         "kubernetes.io/cluster/eks" = "shared"
         "kubernetes.io/role/internal-elb" = 1
@@ -119,22 +118,22 @@ resource "aws_subnet" "task2_prvt_subnet_3" {
 #internet gateway and NAT section
 
 #Create an internet gateway
-resource "aws_internet_gateway" "task2_internet_gateway" {
-    vpc_id= aws_vpc.task2_vpc.id
+resource "aws_internet_gateway" "demo2_internet_gateway" {
+    vpc_id= aws_vpc.demo2_vpc.id
     tags={
         Name: "${var.t2_prefix}-igw"
     }
 }
 
 #Create a public ip for nat
-resource "aws_eip" "task2_nat_eip" {
-  depends_on= [aws_internet_gateway.task2_internet_gateway]
+resource "aws_eip" "demo2_nat_eip" {
+  depends_on= [aws_internet_gateway.demo2_internet_gateway]
 }
 
 #Create a nat
-resource "aws_nat_gateway" "task2_nat" {
-  allocation_id = aws_eip.task2_nat_eip.id
-  subnet_id     = aws_subnet.task2_pub_subnet_1.id
+resource "aws_nat_gateway" "demo2_nat" {
+  allocation_id = aws_eip.demo2_nat_eip.id
+  subnet_id     = aws_subnet.demo2_pub_subnet_1.id
   tags={
         Name: "${var.t2_prefix}-nat"
     }
@@ -143,11 +142,11 @@ resource "aws_nat_gateway" "task2_nat" {
 #route tables section and assocciation
 
 #Create a public route table
-resource "aws_route_table" "task2_pub_route_table" {
-    vpc_id= aws_vpc.task2_vpc.id
+resource "aws_route_table" "demo2_pub_route_table" {
+    vpc_id= aws_vpc.demo2_vpc.id
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id= aws_internet_gateway.task2_internet_gateway.id
+        gateway_id= aws_internet_gateway.demo2_internet_gateway.id
     }
     tags={
         Name: "${var.t2_prefix}-pub-rtb"
@@ -155,29 +154,29 @@ resource "aws_route_table" "task2_pub_route_table" {
 }
 
 # Associate subnet1 with public route table
-resource "aws_route_table_association" "task2_pub_rtb_subnet1" {
-    subnet_id      = aws_subnet.task2_pub_subnet_1.id
-    route_table_id = aws_route_table.task2_pub_route_table.id
+resource "aws_route_table_association" "demo2_pub_rtb_subnet1" {
+    subnet_id      = aws_subnet.demo2_pub_subnet_1.id
+    route_table_id = aws_route_table.demo2_pub_route_table.id
 }
 
 # Associate subnet2 with public route table
-resource "aws_route_table_association" "task2_pub_rtb_subnet2" {
-    subnet_id      = aws_subnet.task2_pub_subnet_2.id
-    route_table_id = aws_route_table.task2_pub_route_table.id
+resource "aws_route_table_association" "demo2_pub_rtb_subnet2" {
+    subnet_id      = aws_subnet.demo2_pub_subnet_2.id
+    route_table_id = aws_route_table.demo2_pub_route_table.id
 }
 
 # Associate subnet3 with public route table
-resource "aws_route_table_association" "task2_pub_rtb_subnet3" {
-    subnet_id      = aws_subnet.task2_pub_subnet_3.id
-    route_table_id = aws_route_table.task2_pub_route_table.id
+resource "aws_route_table_association" "demo2_pub_rtb_subnet3" {
+    subnet_id      = aws_subnet.demo2_pub_subnet_3.id
+    route_table_id = aws_route_table.demo2_pub_route_table.id
 }
 
 #Create a private route table
-resource "aws_route_table" "task2_prvt_route_table" {
-    vpc_id= aws_vpc.task2_vpc.id
+resource "aws_route_table" "demo2_prvt_route_table" {
+    vpc_id= aws_vpc.demo2_vpc.id
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id= aws_nat_gateway.task2_nat.id
+        gateway_id= aws_nat_gateway.demo2_nat.id
     }
     tags={
         Name: "${var.t2_prefix}-prvt-rtb"
@@ -185,21 +184,21 @@ resource "aws_route_table" "task2_prvt_route_table" {
 }
 
 # Associate subnet4 with private route table
-resource "aws_route_table_association" "task2_prvt_rtb_subnet1" {
-    subnet_id      = aws_subnet.task2_prvt_subnet_1.id
-    route_table_id = aws_route_table.task2_prvt_route_table.id
+resource "aws_route_table_association" "demo2_prvt_rtb_subnet1" {
+    subnet_id      = aws_subnet.demo2_prvt_subnet_1.id
+    route_table_id = aws_route_table.demo2_prvt_route_table.id
 }
 
 # Associate subnet5 with private route table
-resource "aws_route_table_association" "task2_prvt_rtb_subnet2" {
-    subnet_id      = aws_subnet.task2_prvt_subnet_2.id
-    route_table_id = aws_route_table.task2_prvt_route_table.id
+resource "aws_route_table_association" "demo2_prvt_rtb_subnet2" {
+    subnet_id      = aws_subnet.demo2_prvt_subnet_2.id
+    route_table_id = aws_route_table.demo2_prvt_route_table.id
 }
 
 # Associate subnet6 with private route table
-resource "aws_route_table_association" "task2_prvt_rtb_subnet3" {
-    subnet_id      = aws_subnet.task2_prvt_subnet_3.id
-    route_table_id = aws_route_table.task2_prvt_route_table.id
+resource "aws_route_table_association" "demo2_prvt_rtb_subnet3" {
+    subnet_id      = aws_subnet.demo2_prvt_subnet_3.id
+    route_table_id = aws_route_table.demo2_prvt_route_table.id
 }
 #-----------------------------------------------------------------
 #eks
@@ -236,12 +235,12 @@ resource "aws_eks_cluster" "eks_cluster" {
       endpoint_private_access = false
       endpoint_public_access = true
       subnet_ids = [
-          aws_subnet.task2_pub_subnet_1.id, 
-          aws_subnet.task2_pub_subnet_2.id,
-          aws_subnet.task2_pub_subnet_3.id, 
-          aws_subnet.task2_prvt_subnet_1.id,
-          aws_subnet.task2_prvt_subnet_2.id, 
-          aws_subnet.task2_prvt_subnet_3.id]
+          aws_subnet.demo2_pub_subnet_1.id, 
+          aws_subnet.demo2_pub_subnet_2.id,
+          aws_subnet.demo2_pub_subnet_3.id, 
+          aws_subnet.demo2_prvt_subnet_1.id,
+          aws_subnet.demo2_prvt_subnet_2.id, 
+          aws_subnet.demo2_prvt_subnet_3.id]
   }
 
   depends_on = [
@@ -291,9 +290,9 @@ resource "aws_eks_node_group" "nodes_general" {
   node_role_arn = aws_iam_role.nodes_general.arn
 
   subnet_ids = [
-    aws_subnet.task2_prvt_subnet_1.id,
-    aws_subnet.task2_prvt_subnet_2.id, 
-    aws_subnet.task2_prvt_subnet_3.id
+    aws_subnet.demo2_prvt_subnet_1.id,
+    aws_subnet.demo2_prvt_subnet_2.id, 
+    aws_subnet.demo2_prvt_subnet_3.id
   ]
 
   scaling_config {
