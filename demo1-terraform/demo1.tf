@@ -6,7 +6,9 @@ provider "aws" {
 
 
 #variable section
-variable "t1_availability_zone1" {}
+variable "t1_availability_zone1" {
+    
+}
 variable "t1_availability_zone2" {}
 variable "t1_vpc_cidr_block" {}
 variable "t1_pubsubnet1_cidr" {}
@@ -14,7 +16,6 @@ variable "t1_pubsubnet2_cidr" {}
 variable "t1_prvsubnet1_cidr" {}
 variable "t1_prvsubnet2_cidr" {}
 variable "t1_prefix" {}
-variable "my_ip_ssh" {}
 variable "t1_instance_type" {}
 #-----------------------------------------------------------------
 #vpc section
@@ -187,12 +188,6 @@ resource "aws_security_group" "demo1_prvt_sg" {
         cidr_blocks = [var.t1_pubsubnet1_cidr[0].cidr,var.t1_pubsubnet2_cidr[0].cidr]
     }
 
-    ingress {
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
 
     egress {
         from_port   = 0
@@ -250,7 +245,7 @@ resource "aws_instance" "demo1_centos1_private" {
                 cat >>/usr/share/nginx/html/index.html<<aaa
                     <html>
                         <body>
-                            This is server 1 private - ${aws_instance.demo1_centos1_private.private_ip}
+                            This is server 1 private 
                         </body>
                     </html>
                 aaa
@@ -279,7 +274,7 @@ resource "aws_instance" "demo1_centos2_private" {
                 cat >>/usr/share/nginx/html/index.html<<aaa
                     <html>
                         <body>
-                            This is server 2 private - ${aws_instance.demo1_centos2_private.private_ip}
+                            This is server 2 private 
                         </body>
                     </html>
                 aaa

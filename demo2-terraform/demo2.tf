@@ -1,5 +1,6 @@
 #Configure the AWS Provider
 provider "aws" {
+  profile= "nehadcli"
   region = "eu-west-3"
 }
 
